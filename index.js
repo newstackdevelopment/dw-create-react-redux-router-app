@@ -192,7 +192,7 @@ const installPackages = () => {
         .cyan
     );
     shell.exec(
-      `npm install -D redux react-router react-redux redux-thunk react-router-dom dw-app-wrapper babel-plugin-import react-app-rewire-less react-app-rewired`,
+      `npm install -D redux react-router react-redux redux-thunk react-router-dom dw-app-wrapper babel-plugin-import react-app-rewire-less react-app-rewired react-app-polyfill`,
       () => {
         console.log("\nFinished installing packages\n".green);
         resolve();
