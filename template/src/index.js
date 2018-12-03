@@ -4,6 +4,7 @@ import * as serviceWorker from "./serviceWorker";
 import { WithStoreAndRouter } from "dw-app-wrapper";
 import Routes from "./routes/routes";
 import reducers from "./store/reducers";
+import './polyfills';
 const ConnectedApp = WithStoreAndRouter({ reducers });
 
 ReactDOM.render(

@@ -1,20 +1,24 @@
-# create-react-redux-router-app
+# dw-create-react-redux-router-app
 
 ## Installation
+Fork of create-react-redux-router with a antd template and added custom scripts.
 
 Install it once, globally
 ```
-npm install -g create-react-redux-router-app
+npm install -g dw-create-react-redux-router-app
 ```
-\*`create-react-redux-router-app` relies on `create-react-app` which will need to be installed separately. Instructions can be found [here](https://github.com/facebookincubator/create-react-app).
+\*`dw-create-react-redux-router-app` relies on `create-react-app` which will need to be installed separately. Instructions can be found [here](https://github.com/facebookincubator/create-react-app).
 
 ## Creating a new app
 
 To create a new app, run
 ```
-create-react-redux-router-app my-app-name
+dw-create-react-redux-router-app my-app-name
 ```
-
+To create a new model in app, run 
+```
+dw-create-react-redux-router-app --add-store-item newModel
+```
 
 ## What this package is:
 
@@ -33,11 +37,11 @@ This project is a thin wrapper around Facebook's [create-react-app](https://gith
 This project is not a replacement for `create-react-app`, but rather a thin wrapper around it. Apps created using this project are not ejected out of `create-react-app` and can still be upgraded to newer versions of `react-scripts` as needed. This project also includes all the same scripts included with `create-react-app` for running a development server and building production versions.
 
 ##### A full-stack solution
-`create-react-redux-router-app` makes no assumptions about the backend of your app. This project is opinionated, however, about the packages you should use for state-management and url routing.
+`dw-create-react-redux-router-app` makes no assumptions about the backend of your app. This project is opinionated, however, about the packages you should use for state-management and url routing.
 
 ## What you get?
 
-`create-react-redux-router-app` not only installs the latest versions of the above-described packages, but also overwrites some of the default template files included with `create-react-app`, specifically:
+`dw-create-react-redux-router-app` not only installs the latest versions of the above-described packages, but also overwrites some of the default template files included with `create-react-app`, specifically:
 
 - [App.js](https://github.com/chrisjpatty/create-react-redux-router-app/blob/master/templates/App.js) - imports a `connect()` function from `react-redux` and connects `<App />` to the Redux store.
 - [index.js](https://github.com/chrisjpatty/create-react-redux-router-app/blob/master/templates/index.js) - This file wraps the `<App/>` component included with `create-react-app` in the `<Provider/>` component imported from `react-redux`, and the `<BrowserRouter/>` component imported from `react-router-dom`.
