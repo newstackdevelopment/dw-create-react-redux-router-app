@@ -1,4 +1,4 @@
-module.exports = `const { injectBabelPlugin } = require("react-app-rewired");
+const { injectBabelPlugin } = require("react-app-rewired");
 const rewireLess = require("react-app-rewire-less");
 module.exports = function override(config, env) {
   // do stuff with the webpack config...
@@ -53,4 +53,4 @@ module.exports = function override(config, env) {
     javascriptEnabled: true
   })(config, env);
   return config;
-};`;
+};

@@ -10,12 +10,12 @@ const emptyAndCopyDirectory = () => {
     if (err) return console.error(err);
     console.log("deletedDirectory!");
   });
-  fs.copy("./template/src", `${appDirectory}/src`, function(err) {
+  fs.copy(`${__dirname}/template/src`, `${appDirectory}/src`, function(err) {
     if (err) return console.error(err);
     console.log("success!");
   });
   fs.copy(
-    "./template/config-overrides.js",
+    `${__dirname}/template/config-overrides.js`,
     `${appDirectory}/config-overrides.js`,
     function(err) {
       if (err) return console.error(err);
@@ -23,9 +23,97 @@ const emptyAndCopyDirectory = () => {
     }
   );
 };
-const createEntity = entityName => {
+const createEntity = async entityName => {
   const name = entityName.charAt(0).toLowerCase() + entityName.slice(1);
+  const uName = entityName.charAt(0).toUpperCase() + entityName.slice(1);
+  fs.access("./src/store/", fs.constants.F_OK, err => {
+    if (err) {
+      console.log(
+        "current directory does not have the src/store folder. Make sure the folder exists before continuing"
+      );
+      return;
+    }
+    fs.copy(`${__dirname}/NewModelTemplate`, `./src/store/${uName}`, err => {
+      if (err) return console.error(err);
+      fs.renameSync(
+        `./src/store/${uName}/NewModelActions.js`,
+        `./src/store/${uName}/${uName}Actions.js`,
+        err => {}
+      );
+      fs.renameSync(
+        `./src/store/${uName}/NewModelConsts.js`,
+        `./src/store/${uName}/${uName}Consts.js`,
+        err => {}
+      );
+      fs.renameSync(
+        `./src/store/${uName}/NewModelModel.js`,
+        `./src/store/${uName}/${uName}Model.js`,
+        err => {}
+      );
+      fs.renameSync(
+        `./src/store/${uName}/NewModelReducer.js`,
+        `./src/store/${uName}/${uName}Reducer.js`,
+        err => {}
+      );
+      prependFiles(name, `${uName}Reducer`);
+      console.log("template copied successfully");
+    });
+  });
 };
+
+const prependFiles = (entityName, fileName) => {
+  const uName = entityName.charAt(0).toUpperCase() + entityName.slice(1);
+  const allCapsName = entityName.toUpperCase();
+  addToReducer(entityName);
+
+  const data = fs.readFileSync(`./src/store/${uName}/${uName}Reducer.js`);
+  const fd = fs.openSync(`./src/store/${uName}/${uName}Reducer.js`, "w+");
+  const newData = data
+    .toString()
+    .replace(/SET_NewModel/g, `SET_${allCapsName}`)
+    .replace(/NewModel/g, `${uName}`);
+  fs.writeSync(fd, newData, 0, newData.length);
+
+  const constData = fs.readFileSync(`./src/store/${uName}/${uName}Consts.js`);
+  const constOpenSync = fs.openSync(
+    `./src/store/${uName}/${uName}Consts.js`,
+    "w+"
+  );
+
+  const newConstData = constData
+    .toString()
+    .replace(/NewModel/g, `${allCapsName}`);
+  fs.writeSync(constOpenSync, newConstData, 0, newConstData.length);
+
+  const actionData = fs.readFileSync(`./src/store/${uName}/${uName}Actions.js`);
+  const actionOpenSync = fs.openSync(
+    `./src/store/${uName}/${uName}Actions.js`,
+    "w+"
+  );
+
+  const newActionData = actionData
+    .toString()
+    .replace(/SET_NewModel/g, `SET_${allCapsName}`)
+    .replace(/NewModel/g, `${uName}`);
+  fs.writeSync(actionOpenSync, newActionData, 0, newActionData.length);
+};
+
+const addToReducer = entityName => {
+  const uName = entityName.charAt(0).toUpperCase() + entityName.slice(1);
+  const data = fs.readFileSync(`./src/store/reducers.js`);
+  const fd = fs.openSync(`./src/store/reducers.js`, "w+");
+  const insert = new Buffer(
+    `import ${entityName} from './${uName}/${uName}Reducer';\r\n`
+  );
+  const newData = data.toString().replace(/}([^}]*)$/, `,${entityName}\r\n}`);
+  fs.writeSync(fd, insert, 0, insert.length, 0);
+  fs.writeSync(fd, newData, insert.length, newData.length, insert.length);
+
+  fs.close(fd, err => {
+    if (err) throw err;
+  });
+};
+
 const run = async () => {
   switch (appName) {
     case "--add-store-item":
@@ -43,6 +131,7 @@ const run = async () => {
         );
         return false;
       }
+      cdIntoNewApp();
       emptyAndCopyDirectory();
       console.log("template copied successfully!!");
       updatePackageScripts();
@@ -101,6 +190,12 @@ const installPackages = () => {
         resolve();
       }
     );
+  });
+};
+const cdIntoNewApp = () => {
+  return new Promise(resolve => {
+    shell.cd(appDirectory);
+    resolve();
   });
 };
 run();

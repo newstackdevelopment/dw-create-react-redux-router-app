@@ -1,6 +1,6 @@
 {
   "name": "dw-create-react-redux-router-app",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A thin wrapper around Facebook's create-react-app which adds some common libraries needed for most medium to large-sized web apps",
   "main": "index.js",
   "repository": {
@@ -20,16 +20,5 @@
   },
   "bin": {
     "dw-create-react-redux-router-app": "index.js"
-  },
-  "devDependencies": {
-    "babel-plugin-import": "^1.11.0",
-    "dw-app-wrapper": "^1.0.12",
-    "react-app-rewire-less": "^2.1.3",
-    "react-app-rewired": "^1.6.2",
-    "react-redux": "^5.1.1",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0"
   }
 }
