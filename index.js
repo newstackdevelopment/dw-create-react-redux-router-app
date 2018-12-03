@@ -6,18 +6,26 @@ let appDirectory = `${process.cwd()}/${appName}`;
 let fs = require("fs-extra");
 
 const emptyAndCopyDirectory = () => {
-  fs.emptyDir(`${appDirectory}/src/`, function(err) {
+  fs.emptyDir(`${appDirectory}/src/`, function (err) {
     if (err) return console.error(err);
     console.log("deletedDirectory!");
   });
-  fs.copy(`${__dirname}/template/src`, `${appDirectory}/src`, function(err) {
+  fs.copy(`${__dirname}/template/src`, `${appDirectory}/src`, function (err) {
     if (err) return console.error(err);
     console.log("success!");
   });
   fs.copy(
     `${__dirname}/template/config-overrides.js`,
     `${appDirectory}/config-overrides.js`,
-    function(err) {
+    function (err) {
+      if (err) return console.error(err);
+      console.log("success!");
+    }
+  );
+  fs.copy(
+    `${__dirname}/template/.vscode`,
+    `${appDirectory}/.vscode`,
+    function (err) {
       if (err) return console.error(err);
       console.log("success!");
     }
@@ -38,22 +46,22 @@ const createEntity = async entityName => {
       fs.renameSync(
         `./src/store/${uName}/NewModelActions.js`,
         `./src/store/${uName}/${uName}Actions.js`,
-        err => {}
+        err => { }
       );
       fs.renameSync(
         `./src/store/${uName}/NewModelConsts.js`,
         `./src/store/${uName}/${uName}Consts.js`,
-        err => {}
+        err => { }
       );
       fs.renameSync(
         `./src/store/${uName}/NewModelModel.js`,
         `./src/store/${uName}/${uName}Model.js`,
-        err => {}
+        err => { }
       );
       fs.renameSync(
         `./src/store/${uName}/NewModelReducer.js`,
         `./src/store/${uName}/${uName}Reducer.js`,
-        err => {}
+        err => { }
       );
       prependFiles(name, `${uName}Reducer`);
       console.log("template copied successfully");
@@ -152,7 +160,7 @@ const updatePackageScripts = async () => {
     test: "react-app-rewired test",
     eject: "react-scripts eject"
   };
-  fs.writeFile(packagePath, JSON.stringify(packageJson, null, 2), function(
+  fs.writeFile(packagePath, JSON.stringify(packageJson, null, 2), function (
     err
   ) {
     if (err) return console.log(err);
