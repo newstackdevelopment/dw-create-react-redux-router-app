@@ -189,7 +189,7 @@ const installPackages = () => {
     const libraries = [
       "redux",
       "react-router",
-      "react-redux@15.1.1",
+      "react-redux@5.1.1",
       "redux-thunk",
       "react-router-dom",
       "dw-app-wrapper",
